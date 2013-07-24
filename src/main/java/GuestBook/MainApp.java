@@ -1,7 +1,6 @@
-import org.apache.log4j.Logger;
+package GuestBook;
 
-import java.io.File;
-import java.sql.SQLException;
+import org.apache.log4j.Logger;
 
 /**
  * Created with IntelliJ IDEA.

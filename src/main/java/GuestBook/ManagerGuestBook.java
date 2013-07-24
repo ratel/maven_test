@@ -1,3 +1,8 @@
+package GuestBook;
+
+import GuestBook.GuestBookController;
+import GuestBook.GuestBookDB;
+
 import java.io.*;
 import java.sql.SQLException;
 import java.util.List;

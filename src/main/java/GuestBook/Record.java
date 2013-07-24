@@ -1,3 +1,5 @@
+package GuestBook;
+
 /**
  * Created with IntelliJ IDEA.
  * User: user
