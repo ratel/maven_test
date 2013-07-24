@@ -1,5 +1,6 @@
 import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.sql.SQLException;
 
 /**
@@ -14,21 +15,14 @@ public class MainApp {
 
     public static void main(String [] args) {
         try {
-        Class.forName("org.h2.Driver");
+            Class.forName("org.h2.Driver");
         }
         catch (Exception e) {
+            System.err.println("Неудалось загрузить драйвер базы данных! Работа невозможна!");
+            return;
         }
 
-        ManagerGuestBook mgBook= null;
-
-        try {
-            mgBook= new ManagerGuestBook(System.in, System.out, System.err);
-        } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-
-        if (mgBook != null)
-            mgBook.work();
-
+        ManagerGuestBook mgBook= new ManagerGuestBook(System.in, System.out, System.err);
+        mgBook.work();
     }
 }

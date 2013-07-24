@@ -10,34 +10,33 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class ManagerGuestBook {
-    private final String ADDCMD= "add";
-    private final String LISTCMD= "list";
+    private final String ADD_CMD = "add";
+    private final String LIST_CMD = "list";
 
     private BufferedReader inReader;
     private OutputStreamWriter outWriter;
     private OutputStreamWriter errWriter;
 
-    private GuestBookController gBook;
+    private GuestBookController gBook= null;
 
 
-    ManagerGuestBook(InputStream in, OutputStream out, OutputStream err) throws SQLException {
-        gBook= new GuestBookDB("tableTest");
+    ManagerGuestBook(InputStream in, OutputStream out, OutputStream err) {
         inReader= new BufferedReader(new InputStreamReader(in));
         outWriter= new OutputStreamWriter(out);
         errWriter= new OutputStreamWriter(err);
     }
 
-    public void doCmd(String cmd) {
+    private void doCmd(String cmd) {
         if (cmd != null) {
             String [] splitCmd= cmd.split(" ");
 
-            if (ADDCMD.equalsIgnoreCase(splitCmd[0])) {
+            if (ADD_CMD.equalsIgnoreCase(splitCmd[0])) {
                 if (splitCmd.length > 1)
                     doAdd(cmd.substring(splitCmd[0].length() + 1));
                 else {
-                    outErrln("Для исполнения команды \"" + ADDCMD + "\" требуется ввести текстовую строку в качестве параметра!");
+                    outErrln("Для исполнения команды \"" + ADD_CMD + "\" требуется ввести текстовую строку в качестве параметра!");
                 }
-            } else if (LISTCMD.equalsIgnoreCase(splitCmd[0])) {
+            } else if (LIST_CMD.equalsIgnoreCase(splitCmd[0])) {
                 doList();
             } else {
                 try {
@@ -51,7 +50,7 @@ public class ManagerGuestBook {
         }
     }
 
-    void doAdd(String addText) {
+    private void doAdd(String addText) {
         try {
             gBook.addRecord(addText);
         } catch (SQLException e) {
@@ -60,7 +59,7 @@ public class ManagerGuestBook {
         }
     }
 
-    void doList() {
+    private void doList() {
         List<Record> rec;
 
         try {
@@ -87,19 +86,28 @@ public class ManagerGuestBook {
         final String BREAKWORK= "exit";
         String cmdStr= null;
 
-        while (!BREAKWORK.equalsIgnoreCase(cmdStr)) {
-            try {
-                cmdStr= inReader.readLine();
-                doCmd(cmdStr);
-            } catch (IOException e) {
-                outErrln("Ошибка при считывании команды!");
-                e.printStackTrace();
-                break;
+        try (GuestBookDB gBook= new GuestBookDB("tableTest")) {
+            this.gBook= gBook;
+
+            while (!BREAKWORK.equalsIgnoreCase(cmdStr)) {
+                try {
+                    cmdStr= inReader.readLine();
+                    doCmd(cmdStr);
+                } catch (IOException e) {
+                    outErrln("Ошибка при считывании команды!");
+                    e.printStackTrace();
+                    break;
+                }
             }
+        } catch (SQLException e) {
+            outErrln("Ошибка при считывании команды!");
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    void outErrln(String errStr) {
+    private void outErrln(String errStr) {
         try {
             errWriter.write(errStr + "\r\n");
             errWriter.flush();
