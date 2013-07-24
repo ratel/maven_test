@@ -24,4 +24,4 @@ public class MainApp {
         ManagerGuestBook mgBook= new ManagerGuestBook(System.in, System.out, System.err);
         mgBook.work();
     }
-}
+}                 // посмотреть http://javatalks.ru/topics/22841
