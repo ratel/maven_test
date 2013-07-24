@@ -6,13 +6,26 @@
  * To change this template use File | Settings | File Templates.
  */
 public class Record {
-    int id;
-    int PostDate;
-    String message;
+    private int id;
+    private String postDate;
+    private String message;
 
-    Record(int id, int PostDate, String message) {
+    Record(int id, String postDate, String message) {
         this.id= id;
-        this.PostDate= PostDate;
+        this.postDate= postDate;
         this.message= message;
     }
+
+    int getId() {
+        return id;
+    }
+
+    String getPostDate() {
+        return postDate;
+    }
+
+    String getMessage() {
+        return message;
+    }
+
 }

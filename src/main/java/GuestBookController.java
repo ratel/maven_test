@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface GuestBookController {
     void addRecord(String record) throws SQLException;
-    List<Record> getRecord() throws SQLException;
+    List<Record> getRecords() throws SQLException;
 }
